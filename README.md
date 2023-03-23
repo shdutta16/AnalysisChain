@@ -112,7 +112,7 @@ Finding the analogous lines in the previous flashgg (of CMSSW_10_6_8) found the 
 ./MicroAOD/python/flashggDiPhotons_cfi.py:                                  vertexIdMVAweightfile   = cms.FileInPath("flashgg/MicroAOD/data/TMVAClassification_BDTVtxId_SL_2016.xml"),
 ./MicroAOD/python/flashggDiPhotons_cfi.py:                                  vertexProbMVAweightfile = cms.FileInPath("flashgg/MicroAOD/data/TMVAClassification_BDTVtxProb_SL_2016.xml"),
 ```
-Replaced the empty strings in flashgg directory (of CMSSW_10_6_29), IT IS WORKING NOW!!!!!
+Replaced the empty strings in flashgg directory (of CMSSW_10_6_29), IT IS WORKING NOW!
 
 After running the analyzer on the microAOD, the previous microAOD and the one produced by Ashim da, both gave the following error:
 ```
@@ -131,3 +131,7 @@ Looking for productInstanceName: reducedSingleLegConversions
 ----- End SkipEvent Exception -------------------------------------------------
 ```
 
+On suggestion from Debabrata da, changing `useVtx0` to `False`. 
+Reason: ""flashggDiPhotonVtx0" is corresponding to the choice among the two possible vertex scenarios, the CMS reconstructed primary vertex and H->gg most probable true vertex. To quickly check if it's not getting the BDT vertex and can work with CMS primary vertex
+In that case we can look into. This fraction of the diPhoAna, and see if all the things are correctly located as mentioned" - Debabrata da
+This did away the previous error. It confirms what Debabrata da had doubted. 
