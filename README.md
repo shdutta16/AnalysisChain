@@ -44,9 +44,7 @@ CMSSW_10_6_29, flashgg dev II, MonoHiggs and then scram.
 
 The MonoHiggsToGG analyzer `DiPhoAnalyzer_Legacy18.cc` has a method `flashgg::Muon::selectLooseMuons()` which has no definition in the `flashgg/Taggers/interface/LeptonSelection.h` header. The MonoHiggsToGG setup has a header file `LeptonSelection.h` in `MonoHiggsToGG/analysis/addfiles`. When this file was copied in the directory `flashgg/Taggers/interface` (with the tag `_MHgg`), a new error was encountered while compilation. The error was that the MonoHiggsToGG version of the header file was expecting the presence of the member `reco::HitPattern::numberOfHits()`. This class `reco::HitPattern` (`reco` being the namespace) is defined in the header `cmssw/DataFormats/TrackReco/interface/HitPattern.h`. Upon checking in the `cmssw` repo in github, it was found that the member `numberOfHits()` exists in `CMSSW_9_3_X` branch, but it is replaced by `numberOfAllHits()` since `CMSSW_9_4_X` branch. However, the strange thing is that MonoHiggsToGG is compatible with `CMSSW_10_6_8`.
 
-The definition of both the methods `numberOfHits()` and `numberOfAllHits()` is exactly the same. So, just to check, changing the name of the method in the MonoHiggsToGG version of the header file and then compiling. 
-
-Four plugins use the `flashgg/Taggers/interface/LeptonSelection.h` which are showing error. 
+The definition of both the methods `numberOfHits()` and `numberOfAllHits()` is exactly the same. So, just to check, changing the name of the method in the MonoHiggsToGG version of the header file and then compiling. The `numberOfHits()` error was gone but this did not compile due to multiple definitions of methods in `LeptonSelection.h` and `LeptonSelection_MHgg.h`. Tried "switching off" `LeptonSelection.h` and only keeping `LeptonSelection_MHgg.h`. But, four plugins use the `flashgg/Taggers/interface/LeptonSelection.h` which are showing error. The plugins:
 ```
 flashgg/Taggers/plugins/VHLeptonicLoose.cc
 flashgg/Taggers/plugins/VHLooseTagProducer.cc
@@ -101,3 +99,5 @@ At:
 ```
 
 So, most likely the paths to these config files are not the source of the problem. 
+
+The same error as of CMSSW_10_6_29 could be reproduced in CMSSW_10_6_9 by leaving `photonFileName` completely empty. So, why is this error being encountered in the former even though the string is filled needs to be checked now. 
