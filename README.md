@@ -100,4 +100,34 @@ At:
 
 So, most likely the paths to these config files are not the source of the problem. 
 
-The same error as of CMSSW_10_6_29 could be reproduced in CMSSW_10_6_9 by leaving `photonFileName` completely empty. So, why is this error being encountered in the former even though the string is filled needs to be checked now. 
+The same error as of CMSSW_10_6_29 could be reproduced in CMSSW_10_6_9 by leaving `photonFileName` completely empty. So, why is this error being encountered in the former even though the string is filled needs to be checked now. It might be there is some other module that is using `cms.FileInPath` with an empty string. Need to find that. It is most likely in flashgg.
+
+Did a `grep -r "FileInPath" .` in the flashgg directory (of CMSSW_10_6_29). Among numerous results found the following two which are being used in the `diPhoAna_2018.py`
+```
+./MicroAOD/python/flashggDiPhotons_cfi.py:                                  vertexIdMVAweightfile   = cms.FileInPath(""),
+./MicroAOD/python/flashggDiPhotons_cfi.py:                                  vertexProbMVAweightfile = cms.FileInPath(""),
+```
+Finding the analogous lines in the previous flashgg (of CMSSW_10_6_8) found the following:
+```
+./MicroAOD/python/flashggDiPhotons_cfi.py:                                  vertexIdMVAweightfile   = cms.FileInPath("flashgg/MicroAOD/data/TMVAClassification_BDTVtxId_SL_2016.xml"),
+./MicroAOD/python/flashggDiPhotons_cfi.py:                                  vertexProbMVAweightfile = cms.FileInPath("flashgg/MicroAOD/data/TMVAClassification_BDTVtxProb_SL_2016.xml"),
+```
+Replaced the empty strings in flashgg directory (of CMSSW_10_6_29), IT IS WORKING NOW!!!!!
+
+After running the analyzer on the microAOD, the previous microAOD and the one produced by Ashim da, both gave the following error:
+```
+Begin processing the 100th record. Run 1, Event 107, LumiSection 1 on stream 0 at 23-Mar-2023 11:59:12.224 CET
+----- Begin SkipEvent Exception 23-Mar-2023 11:59:12 CET-----------------------
+An exception of category 'ProductNotFound' occurred while
+   [0] Processing  Event run: 1 lumi: 1 event: 107 stream: 0
+   [1] Running path 'p'
+   [2] Calling method for module FlashggDiPhotonProducer/'flashggDiPhotonsVtx0'
+Exception Message:
+Principal::getByToken: Found zero products matching all criteria
+Looking for a container with elements of type: reco::Conversion
+Looking for module label: reducedEgamma
+Looking for productInstanceName: reducedSingleLegConversions
+
+----- End SkipEvent Exception -------------------------------------------------
+```
+
