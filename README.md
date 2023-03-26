@@ -145,3 +145,45 @@ This did away the previous error. It confirms what Debabrata da had doubted.
 ### Discussion with Satyaki sir and MHgg skype group
 
 There are two ways by which the primary vertex is calculated that is relevant for the analysis. The first is the way it is calculated in CMS. Whenever there is a hard collision between two protons (it is the quarks that actually "collide"), there are also other particles (quarks, anti-quarks, gluons etc.) near the hard collision. These other particles too "collide" albeit softly. After the collision these soft collisions emit many gluons and quarks as debris that soon hadronize and form jets. These jets are composed of charged hadrons (mostly charged pions, since they are the lightest). Track fitting is done on them and then checked where all these tracks are converging. Each vertex so created is a candidate for being the primary vertex. The final selection is done based on the criteria of having max &Sigma;p<sub>T</sub><sup>2</sup>). This is the CMS-calculated primary vertex.  
+
+
+
+# Making Limit plots
+
+The microAOD trees need to skimmed appropriately. In the skimming step new branches will be added to the trees corresponding to quantities that are required (and hence need to be calculated). In the recent discussions, it was decided in the cut-based approach only events that pass the cuts will be stored in the skimmed trees, while in case of the DNN (parametric or non-parametric), all the events will be stored along with the DNN score. The `skim_paraDNN.py` (`skim_DNN.py`) skims the trees based on the parametric DNN (non-parametric DNN) and can also produce trees implementing the cut-based method. 
+
+Note that while loading the DNN model json file in the above python script the following error is encountered (if not already corrected).
+```
+Traceback (most recent call last):
+  File "skim_paraDNN.py", line 593, in <module>
+    dnn_model = model_from_json( dnn_model_json )
+  File "/home/shubhamdutta/.local/lib/python2.7/site-packages/tensorflow_core/python/keras/saving/model_config.py", line 96, in model_from_json
+    return deserialize(config, custom_objects=custom_objects)
+  File "/home/shubhamdutta/.local/lib/python2.7/site-packages/tensorflow_core/python/keras/layers/serialization.py", line 106, in deserialize
+    printable_module_name='layer')
+  File "/home/shubhamdutta/.local/lib/python2.7/site-packages/tensorflow_core/python/keras/utils/generic_utils.py", line 303, in deserialize_keras_object
+    list(custom_objects.items())))
+  File "/home/shubhamdutta/.local/lib/python2.7/site-packages/tensorflow_core/python/keras/engine/sequential.py", line 377, in from_config
+    custom_objects=custom_objects)
+  File "/home/shubhamdutta/.local/lib/python2.7/site-packages/tensorflow_core/python/keras/layers/serialization.py", line 106, in deserialize
+    printable_module_name='layer')
+  File "/home/shubhamdutta/.local/lib/python2.7/site-packages/tensorflow_core/python/keras/utils/generic_utils.py", line 305, in deserialize_keras_object
+    return cls.from_config(cls_config)
+  File "/home/shubhamdutta/.local/lib/python2.7/site-packages/tensorflow_core/python/keras/engine/base_layer.py", line 519, in from_config
+    return cls(**config)
+  File "/home/shubhamdutta/.local/lib/python2.7/site-packages/tensorflow_core/python/keras/layers/core.py", line 1086, in __init__
+    self.kernel_regularizer = regularizers.get(kernel_regularizer)
+  File "/home/shubhamdutta/.local/lib/python2.7/site-packages/tensorflow_core/python/keras/regularizers.py", line 302, in get
+    return deserialize(identifier)
+  File "/home/shubhamdutta/.local/lib/python2.7/site-packages/tensorflow_core/python/keras/regularizers.py", line 294, in deserialize
+    printable_module_name='regularizer')
+  File "/home/shubhamdutta/.local/lib/python2.7/site-packages/tensorflow_core/python/keras/utils/generic_utils.py", line 292, in deserialize_keras_object
+    config, module_objects, custom_objects, printable_module_name)
+  File "/home/shubhamdutta/.local/lib/python2.7/site-packages/tensorflow_core/python/keras/utils/generic_utils.py", line 250, in class_and_config_for_serialized_keras_object
+    raise ValueError('Unknown ' + printable_module_name + ': ' + class_name)
+ValueError: Unknown regularizer: L2
+```
+The solution is to change `kernel_regularizer": {"class_name": "L2"` to `"kernel_regularizer": {"class_name": "L1L2"` in the json file. The error is due to the way the model is saved in the json file. For more details refer to the [link](https://stackoverflow.com/questions/64063914/unknown-regularizer-l2-in-tensorflowjs). 
+
+
+The events will then be furthur divided into bins of DNN score (or MET bins) using the script `fitterFormatting_DNNcat_array.cc` (or `fitterFormatting_METcat_array.cc`) (these scripts are run by using the bash script `formatNtupleForFitting_DNNcat_array.sh` (`formatNtupleForFitting_METcat_array.sh`) by passing appropriate arguments). 
