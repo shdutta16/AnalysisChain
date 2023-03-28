@@ -1,7 +1,8 @@
-# AnalysisChain
-Full analysis chain starting from microAOD production (from miniAOD) to limit plots
+# Analysis Chain
+Full analysis chain starting from microAOD production (from miniAOD) to limit plots.
 
 The miniAOD datasets are centrally produced. They have different parameters associated with them. Currently, I can remember the following terms that I don't fully understand. Campaign name(?), Eras(?), MetaConditions(?), ReReco(?), UL (ultra legacy)(?), EOY(end of year)(?), Global Tag. When ID value is upgraded only the cut value is changed in case of cut-based and weight file in case of MVA ID. MVAestimatorV2(?)
+The different
 
 V2 IDs are absent, only V1 IDs are present. PostRecoTools were recommended to created V2 IDs for the microAOD. Scales and smearings (?).
 
