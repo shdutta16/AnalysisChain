@@ -192,9 +192,9 @@ The events will then be furthur divided into bins of DNN score (or MET bins) usi
 
 
 
-## Unable to recreate previous limit plot (of 2020) with current setup
+## Unable to recreate previous limit plot (of 2021) with current setup
 
-Using the current setup, attempts were made to recreate the plots that were made in 2020. However, till now it has not been possible. Initially (initial in 2023), when the plots were made using the DNN skimmed trees both from the parametric and non-parametric models, it did not give the best plot (of DNN) produced in 2020. To check this further, the DNN skimmed trees of 2020 were used to make the plots and they too didn't give the best result of 2020. Next, the trees produced in 2020 (from the path `/afs/cern.ch/work/s/shdutta/public/Analysis/MHgg/2018Analysis/CMSSW_10_6_8/src/MonoHiggsToGG/analysis/fits/2018_2HDMa_EOY/LowMET`), after the MET categorization using the `fitterformatting_METcat_array.cc` script, were used to make the limit plots and it DID GIVE THE BEST PLOT OF 2020. So, after this the differences were checked in the `fitterformatting_METcat_array.cc` script to find out if any additional cuts were used after skimming. It was found that there was an additional cut on ptgg corresponding to highMET and lowMET. Events with MET 50 < met < 150 were chosen with ptgg > 40 while events with met > 150 were chosen with ptgg > 90. The reason for this could be understood from the ptgg vs. MET 2D histograms. However, even using this condition in the current `fitterformatting_METcat_array.cc` script, the best of 2020 could not be reproduced. On comparing the trees of 2020 and 2023 after the "fitterformatting" step, substantial difference was observed in the ptgg distribution of the events which till now (as of 30/03/2023) could not be understood. This is being investigated further. 
+Using the current setup, attempts were made to recreate the plots that were made in 2021. However, till now it has not been possible. Initially (initial in 2023), when the plots were made using the DNN skimmed trees both from the parametric and non-parametric models, it did not give the best plot (of DNN) produced in 2021. To check this further, the DNN skimmed trees of 2021 were used to make the plots and they too didn't give the best result of 2020. Next, the trees produced in 2021 (from the path `/afs/cern.ch/work/s/shdutta/public/Analysis/MHgg/2018Analysis/CMSSW_10_6_8/src/MonoHiggsToGG/analysis/fits/2018_2HDMa_EOY/LowMET`), after the MET categorization using the `fitterformatting_METcat_array.cc` script, were used to make the limit plots and it DID GIVE THE BEST PLOT OF 2021. So, after this the differences were checked in the `fitterformatting_METcat_array.cc` script to find out if any additional cuts were used after skimming. It was found that there was an additional cut on ptgg corresponding to highMET and lowMET. Events with MET 50 < met < 150 were chosen with ptgg > 40 while events with met > 150 were chosen with ptgg > 90. The reason for this could be understood from the ptgg vs. MET 2D histograms. However, even using this condition in the current `fitterformatting_METcat_array.cc` script, the best of 2020 could not be reproduced. On comparing the trees of 2021 and 2023 after the "fitterformatting" step, substantial difference was observed in the ptgg distribution of the events which till now (as of 30/03/2023) could not be understood. This is being investigated further. 
 
 ### Some directory nomenclatures:
 
@@ -202,7 +202,7 @@ SKIMMED TREES DIRECTORIES:
 
 `DNN_skim_METbins` -> Skimmed trees with non-parametric DNN for making MET bins (MET-binning is not done yet; this is before "fitterformatting_METcat" step). It has events passing the cut dnnScore > 0.95
 
-`DNN_skim_METbins_withPreviousSkimmedTrees` -> Skimmed trees of 2020. Remaining details same as above. 
+`DNN_skim_METbins_withPreviousSkimmedTrees` -> Skimmed trees of 2021. Remaining details same as above. 
 
 `DNN_skim_DNNbins` -> Skimmed trees with non-parametric DNN for making DNN bins (DNN-binng is not done yet; this is before "fitterformatting_DNNcat" step). It has all events, since the cut is dnnScore > 0.0
 
@@ -229,8 +229,17 @@ AFTER FITTER-FORMATTING STEP DIRECTORIES:
 1. `ntuples4fit_pho_newSig_test_metBins_50_70_100_130_150_noPtggCut` -> no ptgg cut
 
 
-`ntuples4fit_DNN_withPreviousNtuples4FitTrees` -> For trees produced in 2020 after the "fitterformatting" step. This has the following sub-directory:
+`ntuples4fit_DNN_withPreviousNtuples4FitTrees` -> For trees produced in 2021 after the "fitterformatting" step. This has the following sub-directory:
 1. `ntuples4fit_pho_newSig_test_metBins_50_70_100_130_150_DNN_ptgg` -> Same name as used in 2020. 
 This directory has additional two files `fitterFormatting_METcat.cc` and `fitterFormatting_METcat_array.cc` which are taken from the same directory (`/afs/cern.ch/work/s/shdutta/public/Analysis/MHgg/2018Analysis/CMSSW_10_6_8/src/MonoHiggsToGG/analysis/fits/2018_2HDMa_EOY/LowMET`) from where the above trees were copied/found. 
 
+03/04/2023
+Two changes were made. First, the normalization of the inputs (to the network) was changed from the given array to column max and second the 2021 weight file (from `/home/shubhamdutta/ANAWORK/MonoHgg/2018Analysis/2018_2HDMa_EOY/AnalysisSelection_allvar_womgg_ANN_model.h5`) is being used. With these two changes, the efficiency nos. of 16/06/2021 could be reproduced viz. 
+200 ---> 52.89%
+300 ---> 46.37%
+400 ---> 76.98%
+500 ---> 80.37%
+600 ---> 73.1%
+
+However, this still doesn't reproduce the 'yellow line' of the comparison plot. 
 
