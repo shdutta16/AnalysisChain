@@ -235,11 +235,13 @@ This directory has additional two files `fitterFormatting_METcat.cc` and `fitter
 
 03/04/2023
 Two changes were made. First, the normalization of the inputs (to the network) was changed from the given array to column max and second the 2021 weight file (from `/home/shubhamdutta/ANAWORK/MonoHgg/2018Analysis/2018_2HDMa_EOY/AnalysisSelection_allvar_womgg_ANN_model.h5`) is being used. With these two changes, the efficiency nos. of 16/06/2021 could be reproduced viz. 
+```
 200 ---> 52.89%
 300 ---> 46.37%
 400 ---> 76.98%
 500 ---> 80.37%
 600 ---> 73.1%
+```
 
 However, this still doesn't reproduce the 'yellow line' of the comparison plot. 
 
