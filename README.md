@@ -245,3 +245,12 @@ Two changes were made. First, the normalization of the inputs (to the network) w
 
 However, this still doesn't reproduce the 'yellow line' of the comparison plot. 
 
+
+10/04/2023 ISSUE SOLVED
+Using the skimmed trees of 2021 with the 2023 MET categorization script, the limit plot did not coinicide with the yellow-line. But using the current 2023 version of non-parametric model but using the 2021 version of weight files and the MET categorization script, the limit plot exactly coincides with the yellow line! This confirms that the issue is with the MET categorization script and neither with the DNN skim script nor the datacard generator scripts. After running `diff` between the 2021 and 2023 MET cat scripts, no important difference could be found (there were some trivial differences only). However, on checking the bash script running the MET categorization script, it was found that in the 2023 verion `whichDphi=3` which was enabling the following and introducing an extra cut on dphi. 
+```
+   if (whichDphi==1 && dphiggmet < 2.1)                        continue;
+   if (whichDphi==2 && mindphijmet < 0.5)                      continue;
+   if (whichDphi==3 && (dphiggmet < 2.1 || mindphijmet < 0.5)) continue;
+```
+After setting `whichDphi=0` (as was done in the 2021 version), the issue was solved and now we get back the same trees as was obtained in 2021. 
