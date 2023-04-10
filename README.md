@@ -311,3 +311,29 @@ After setting `whichDphi=0` (as was done in the 2021 version), the issue was sol
     ./run_myCombineAlMonoHiggs2HDMa.sh
     ./run_limitPlotsMonoHgg.sh
     ```
+    
+ 8. To make the combined limit plot (combining each MET category) make a directory in the parent location (`/afs/cern.ch/work/s/shdutta/public/Analysis/MHgg/2018Analysis/Fit_DiPhotonTools/CMSSW_9_4_9/src/diphotons/Analysis/macros/2018_2HDMa_EOY_reloaded/`). `Combined_MET_DNN_normWithMax` was made for the above example. 
+
+9. Copy the following files from `Combined_MET_DNN` in the newly created directory:
+   ```
+   auto_plotter.py
+   mycombineall_MonoHgg2HDMa.sh
+   mylimit_plots_MonoHgg_2HDMa.py
+   mylimit_plots_MonoHgg.sh
+   run_makePlots.sh
+   ```
+10. Make the directory `ntuples4fit_pho_newSig_test_met50_met70_met100_met130_met150_cic_default_shapes_lumi_59.69` in the current location.
+11. Copy `combineCards.sh` from `MET_DNN/ntuples4fit_pho_newSig_test_met50_met70_met100_met130_met150_cic_default_shapes_lumi_59.69/` inside the directory created in the last step.
+
+12. Open the `combineCards.sh` and change the paths corresponding to each mass point to the location of the datacards. For example:
+    ```
+    # mA=200                                                                                                                                                               combineCards.py of0j=../../MET_DNN_normWithMax/ntuples4fit_pho_newSig_test_metBins_50_70_cic_default_shapes_lumi_59.69/dataCard_sig_2HDMa_mA200_ma150_13TeV.txt \
+                of1j=../../MET_DNN_normWithMax/ntuples4fit_pho_newSig_test_metBins_70_100_cic_default_shapes_lumi_59.69/dataCard_sig_2HDMa_mA200_ma150_13TeV.txt \
+                of2j=../../MET_DNN_normWithMax/ntuples4fit_pho_newSig_test_metBins_100_130_cic_default_shapes_lumi_59.69/dataCard_sig_2HDMa_mA200_ma150_13TeV.txt \
+                of3j=../../MET_DNN_normWithMax/ntuples4fit_pho_newSig_test_metBins_130_150_cic_default_shapes_lumi_59.69/dataCard_sig_2HDMa_mA200_ma150_13TeV.txt \
+                of4j=../../MET_DNN_normWithMax/ntuples4fit_pho_newSig_test_metBins_150_cic_default_shapes_lumi_59.69/dataCard_sig_2HDMa_mA200_ma150_13TeV.txt \
+                > dataCard_sig_2HDMa_mA200_ma150_13TeV.txt
+    ```
+13. Execute `./combineCards.sh` to make the combined datacards. 
+14. `cd` one level up to `Combined_MET_DNN_normWithMax`.   
+15. Execute `./run_makePlots.sh` to make the plots. 
