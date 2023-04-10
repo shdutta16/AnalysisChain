@@ -261,6 +261,7 @@ After setting `whichDphi=0` (as was done in the 2021 version), the issue was sol
 1. Make a directory in the location `/afs/cern.ch/work/s/shdutta/public/Analysis/MHgg/2018Analysis/Fit_DiPhotonTools/CMSSW_9_4_9/src/diphotons/Analysis/macros/2018_2HDMa_EOY_reloaded/`, for example `MET_DNN_normWithMax` was made for non-parametric DNN model with MET categorization and the input nodes of the DNN normalized by the column max. 
 
 2. Copy the following files:
+   
    i) For non-parametric DNN model copy from `MET_DNN` directory
       ```
       auto_plotter.py
