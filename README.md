@@ -305,9 +305,9 @@ After setting `whichDphi=0` (as was done in the 2021 version), the issue was sol
    cp -r ntuples4fit_pho_newSig_test_metBins_50_70_100_130_150_ptgg40_150+_ptgg90_MET_DNN2023_normWithMax_2021fitterFormatting_METcat_array ntuples4fit_pho_newSig_test_metBins_150
    ```
  7. Execute the following to make the plots:
-   ```
-   cmsenv
-   ./run_combineMakerMonoHgg.sh
-   ./run_myCombineAlMonoHiggs2HDMa.sh
-   ./run_limitPlotsMonoHgg.sh
-   ```
+    ```
+    cmsenv
+    ./run_combineMakerMonoHgg.sh
+    ./run_myCombineAlMonoHiggs2HDMa.sh
+    ./run_limitPlotsMonoHgg.sh
+    ```
