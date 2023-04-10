@@ -254,3 +254,59 @@ Using the skimmed trees of 2021 with the 2023 MET categorization script, the lim
    if (whichDphi==3 && (dphiggmet < 2.1 || mindphijmet < 0.5)) continue;
 ```
 After setting `whichDphi=0` (as was done in the 2021 version), the issue was solved and now we get back the same trees as was obtained in 2021. 
+
+
+## Chain to make limit plots under current setup of 10/04/2023 with MET categorization
+
+1. Make a directory in the location `/afs/cern.ch/work/s/shdutta/public/Analysis/MHgg/2018Analysis/Fit_DiPhotonTools/CMSSW_9_4_9/src/diphotons/Analysis/macros/2018_2HDMa_EOY_reloaded/`, for example `MET_DNN_normWithMax` was made for non-parametric DNN model with MET categorization and the input nodes of the DNN normalized by the column max. 
+
+2. Copy the following files:
+   i) For non-parametric DNN model copy from `MET_DNN` directory
+      ```
+      auto_plotter.py
+      combine_maker_MonoHgg.py
+      combine_maker_MonoHgg.sh
+      templates_maker_MonoHgg.py
+      mycombineall_MonoHgg2HDMa.sh
+      mylimit_plots_MonoHgg_2HDMa.py
+      mylimit_plots_MonoHgg.sh
+      run_combineMakerMonoHgg.sh
+      run_myCombineAlMonoHiggs2HDMa.sh
+      run_limitPlotsMonoHgg.sh
+      <ALL THE JSON FILES>
+      ```
+   ii) For parametric DNN model copy from `MET_paraDNN` directory 
+      ```
+      auto_plotter.py
+      combine_maker_MonoHgg_test.py
+      combine_maker_MonoHgg_test.sh
+      templates_maker_MonoHgg.py
+      mycombineall_MonoHgg2HDMa.sh
+      mylimit_plots_MonoHgg_2HDMa.py
+      mylimit_plots_MonoHgg.sh
+      run_combineMakerMonoHgg.sh
+      run_myCombineAlMonoHiggs2HDMa.sh
+      run_limitPlotsMonoHgg.sh
+      <ALL THE JSON FILES>
+      ```
+3. Open `combine_maker_MonoHgg.sh` (`combine_maker_MonoHgg_test.sh`) for non-parametric DNN (parametric DNN) and change the path to the current directory, for example `www=/afs/cern.ch/work/s/shdutta/public/Analysis/MHgg/2018Analysis/Fit_DiPhotonTools/CMSSW_9_4_9/src/diphotons/Analysis/macros/2018_2HDMa_EOY_reloaded/MET_DNN_normWithMax` was done for `MET_DNN_normWithMax`.
+
+4. Open `mylimit_plots_MonoHgg.sh` and change the path to the current directory for the `-O` argument.
+
+5. Copy the directory containing the trees produced after the MET categorization (after running `fitterFormatting_METcat_array` script) to the current location.
+
+6. Make copies of this directory corresponding to each MET category as shown in the following example:
+   ```
+   cp -r ntuples4fit_pho_newSig_test_metBins_50_70_100_130_150_ptgg40_150+_ptgg90_MET_DNN2023_normWithMax_2021fitterFormatting_METcat_array ntuples4fit_pho_newSig_test_metBins_50_70
+   cp -r ntuples4fit_pho_newSig_test_metBins_50_70_100_130_150_ptgg40_150+_ptgg90_MET_DNN2023_normWithMax_2021fitterFormatting_METcat_array ntuples4fit_pho_newSig_test_metBins_70_100
+   cp -r ntuples4fit_pho_newSig_test_metBins_50_70_100_130_150_ptgg40_150+_ptgg90_MET_DNN2023_normWithMax_2021fitterFormatting_METcat_array ntuples4fit_pho_newSig_test_metBins_100_130
+   cp -r ntuples4fit_pho_newSig_test_metBins_50_70_100_130_150_ptgg40_150+_ptgg90_MET_DNN2023_normWithMax_2021fitterFormatting_METcat_array ntuples4fit_pho_newSig_test_metBins_130_150
+   cp -r ntuples4fit_pho_newSig_test_metBins_50_70_100_130_150_ptgg40_150+_ptgg90_MET_DNN2023_normWithMax_2021fitterFormatting_METcat_array ntuples4fit_pho_newSig_test_metBins_150
+   ```
+ 7. Execute the following to make the plots:
+   ```
+   cmsenv
+   ./run_combineMakerMonoHgg.sh
+   ./run_myCombineAlMonoHiggs2HDMa.sh
+   ./run_limitPlotsMonoHgg.sh
+   ```
