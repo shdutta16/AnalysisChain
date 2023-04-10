@@ -304,7 +304,7 @@ After setting `whichDphi=0` (as was done in the 2021 version), the issue was sol
    cp -r ntuples4fit_pho_newSig_test_metBins_50_70_100_130_150_ptgg40_150+_ptgg90_MET_DNN2023_normWithMax_2021fitterFormatting_METcat_array ntuples4fit_pho_newSig_test_metBins_130_150
    cp -r ntuples4fit_pho_newSig_test_metBins_50_70_100_130_150_ptgg40_150+_ptgg90_MET_DNN2023_normWithMax_2021fitterFormatting_METcat_array ntuples4fit_pho_newSig_test_metBins_150
    ```
- 7. Execute the following to make the plots:
+7. Execute the following to make the plots:
     ```
     cmsenv
     ./run_combineMakerMonoHgg.sh
@@ -312,7 +312,7 @@ After setting `whichDphi=0` (as was done in the 2021 version), the issue was sol
     ./run_limitPlotsMonoHgg.sh
     ```
     
- 8. To make the combined limit plot (combining each MET category) make a directory in the parent location (`/afs/cern.ch/work/s/shdutta/public/Analysis/MHgg/2018Analysis/Fit_DiPhotonTools/CMSSW_9_4_9/src/diphotons/Analysis/macros/2018_2HDMa_EOY_reloaded/`). `Combined_MET_DNN_normWithMax` was made for the above example. 
+8. To make the combined limit plot (combining each MET category) make a directory in the parent location (`/afs/cern.ch/work/s/shdutta/public/Analysis/MHgg/2018Analysis/Fit_DiPhotonTools/CMSSW_9_4_9/src/diphotons/Analysis/macros/2018_2HDMa_EOY_reloaded/`). `Combined_MET_DNN_normWithMax` was made for the above example. 
 
 9. Copy the following files from `Combined_MET_DNN` in the newly created directory:
    ```
@@ -322,10 +322,11 @@ After setting `whichDphi=0` (as was done in the 2021 version), the issue was sol
    mylimit_plots_MonoHgg.sh
    run_makePlots.sh
    ```
-10. Make the directory `ntuples4fit_pho_newSig_test_met50_met70_met100_met130_met150_cic_default_shapes_lumi_59.69` in the current location.
-11. Copy `combineCards.sh` from `MET_DNN/ntuples4fit_pho_newSig_test_met50_met70_met100_met130_met150_cic_default_shapes_lumi_59.69/` inside the directory created in the last step.
+10. Open the file `mylimit_plots_MonoHgg.sh` and change the path to current location for `-O` argument (as was done previously).
+11. Make the directory `ntuples4fit_pho_newSig_test_met50_met70_met100_met130_met150_cic_default_shapes_lumi_59.69` in the current location.
+12. Copy `combineCards.sh` from `MET_DNN/ntuples4fit_pho_newSig_test_met50_met70_met100_met130_met150_cic_default_shapes_lumi_59.69/` inside the directory created in  the last step.
 
-12. Open the `combineCards.sh` and change the paths corresponding to each mass point to the location of the datacards. For example:
+13. Open the `combineCards.sh` and change the paths corresponding to each mass point to the location of the datacards. For example:
     ```
     # mA=200                                                                                                                                                               combineCards.py of0j=../../MET_DNN_normWithMax/ntuples4fit_pho_newSig_test_metBins_50_70_cic_default_shapes_lumi_59.69/dataCard_sig_2HDMa_mA200_ma150_13TeV.txt \
                 of1j=../../MET_DNN_normWithMax/ntuples4fit_pho_newSig_test_metBins_70_100_cic_default_shapes_lumi_59.69/dataCard_sig_2HDMa_mA200_ma150_13TeV.txt \
@@ -334,6 +335,6 @@ After setting `whichDphi=0` (as was done in the 2021 version), the issue was sol
                 of4j=../../MET_DNN_normWithMax/ntuples4fit_pho_newSig_test_metBins_150_cic_default_shapes_lumi_59.69/dataCard_sig_2HDMa_mA200_ma150_13TeV.txt \
                 > dataCard_sig_2HDMa_mA200_ma150_13TeV.txt
     ```
-13. Execute `./combineCards.sh` to make the combined datacards. 
-14. `cd` one level up to `Combined_MET_DNN_normWithMax`.   
-15. Execute `./run_makePlots.sh` to make the plots. 
+14. Execute `./combineCards.sh` to make the combined datacards. 
+15. `cd` one level up to `Combined_MET_DNN_normWithMax`.   
+16. Execute `./run_makePlots.sh` to make the plots. 
