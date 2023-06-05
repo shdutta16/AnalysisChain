@@ -340,6 +340,43 @@ After setting `whichDphi=0` (as was done in the 2021 version), the issue was sol
 16. Execute `./run_makePlots.sh` to make the plots. 
 
 
+## Unable to run the diphoton analyzer in crab (02/06/2023)
+
+The analyzer runs fine when running it interactively, but it fails when trying to run through CRAB. The following error was encountered initially:
+```
+Error Summary:
+
+1 jobs failed with exit code 7002:
+
+	1 jobs failed with following error message: (for example, job 1)
+
+		Error while running CMSSW:
+		Fatal Exception
+		An exception of category 'ConfigFileReadError' occurred while
+		   [0] Processing the python configuration file named PSet.py
+		Exception Message:
+		 unknown python problem occurred.
+		RuntimeError: An exception of category 'FileInPathError' occurred.
+		Exception Message:
+		edm::FileInPath unable to find file flashgg/Taggers/data/L1prefiring_photonpt_2017BtoF.root anywhere in the search path.
+		The search path is defined by: CMSSW_SEARCH_PATH
+		${CMSSW_SEARCH_PATH} is: /srv/CMSSW_10_6_29/poison:/srv/CMSSW_10_6_29/src:/srv/CMSSW_10_6_29/external/slc7_amd64_gcc700/data:/cvmfs/cms.cern.ch/slc7_amd64_gcc700/cms/cmssw/CMSSW_10_6_29/src:/cvmfs/cms.cern.ch/slc7_amd64_gcc700/cms/cmssw/CMSSW_10_6_29/external/slc7_amd64_gcc700/data
+		Current directory is: /srv
+		At:
+		  /cvmfs/cms.cern.ch/slc7_amd64_gcc700/cms/cmssw/CMSSW_10_6_29/python/FWCore/ParameterSet/Types.py(639): insertInto
+		  /cvmfs/cms.cern.ch/slc7_amd64_gcc700/cms/cmssw/CMSSW_10_6_29/python/FWCore/ParameterSet/Mixins.py(356): insertContentsInto
+		  /cvmfs/cms.cern.ch/slc7_amd64_gcc700/cms/cmssw/CMSSW_10_6_29/python/FWCore/ParameterSet/Mixins.py(482): insertInto
+		  /cvmfs/cms.cern.ch/slc7_amd64_gcc700/cms/cmssw/CMSSW_10_6_29/python/FWCore/ParameterSet/Modules.py(162): insertInto
+		  /cvmfs/cms.cern.ch/slc7_amd64_gcc700/cms/cmssw/CMSSW_10_6_29/python/FWCore/ParameterSet/Config.py(900): _insertManyInto
+		  /cvmfs/cms.cern.ch/slc7_amd64_gcc700/cms/cmssw/CMSSW_10_6_29/python/FWCore/ParameterSet/Config.py(1102): fillProcessDesc
+		  <string>(2): <module>
+
+Have a look at https://twiki.cern.ch/twiki/bin/viewauth/CMSPublic/JobExitCodes for a description of the exit codes.
+```
+
+The two files are part of the flashgg setup, but crab is unable to locate them because this area is not included in the search path variable `CMSSW_SEARCH_PATH`. The file was then provided explicitly through `config.JobType.inputFiles`. Accordingly the paths to these files were changed from type `cms.FileInPath()` to `cms.string()`. This then gave the following error.
+
+
 
 
 # Obsolete (only for reference in the future)
